@@ -186,9 +186,9 @@ var goApp = {
 
 $(document).ready(function(){
 	
-	.flowtype({
+	$("#div1 #definition").flowtype({
 	   minFont : 12,
-	   maxFont : 40
+	   maxFont : 36
 	});
 	
 	//$("#div1 #definition").css({
