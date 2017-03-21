@@ -191,6 +191,11 @@ $(document).ready(function(){
 	   maxFont : 36
 	});
 	
+	$("#div1 #word").flowtype({
+	   minFont : 36,
+	   maxFont : 80
+	});
+	
 	//$("#div1 #definition").css({
 	//	'width': $("#div1 #definition").width(),
 	//	'height': $("#div1 #definition").height()
