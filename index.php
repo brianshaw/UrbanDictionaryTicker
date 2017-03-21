@@ -126,7 +126,7 @@ var goApp = {
     $('body').css('background-color', color);
     //$('body').css('color', complement);
     $("#div1 #word").html(currentWord.word);
-    $("#div1 #definition").html(currentWord.definition).textfill({ maxFontPixels: 36 });
+    $("#div1 #definition span").html(currentWord.definition).textfill({ maxFontPixels: 36 });
     $("#count").text('word count: '+goApp.shownCount);
     if (goApp.urbanResults.length == 0){
       //console.log('stopping');
@@ -202,7 +202,7 @@ $(document).ready(function(){
     <div id="wrapper">
       <div id="div1">
         <div id="word" class="animated  bounceIn">Gettin'r Done</div>
-        <div id="definition"></div>
+        <div id="definition"><span></span></div>
       </div>
     </div>
     
