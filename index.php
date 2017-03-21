@@ -67,7 +67,7 @@ html, body {
 
 <script type="application/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 <script type="application/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-
+<script type="application/javascript" src="flowtype.js"></script>
 <script>
 	//
 
@@ -133,8 +133,8 @@ var goApp = {
     $('body').css('background-color', color);
     //$('body').css('color', complement);
     $("#div1 #word").html(currentWord.word);
-    $("#div1 #definition span").html(currentWord.definition);
-    $("#div1 #definition").textfill({ maxFontPixels: 36 });
+    $("#div1 #definition").html(currentWord.definition);
+    //$("#div1 #definition").textfill({ maxFontPixels: 36 });
     $("#count").text('word count: '+goApp.shownCount);
     if (goApp.urbanResults.length == 0){
       //console.log('stopping');
@@ -186,10 +186,15 @@ var goApp = {
 
 $(document).ready(function(){
 	
-	$("#div1 #definition").css({
-		'width': $("#div1 #definition").width(),
-		'height': $("#div1 #definition").height()
+	.flowtype({
+	   minFont : 12,
+	   maxFont : 40
 	});
+	
+	//$("#div1 #definition").css({
+	//	'width': $("#div1 #definition").width(),
+	//	'height': $("#div1 #definition").height()
+	//});
 	
   $('#stopper').click(function(){
     if (goApp.isRunning) {
@@ -216,7 +221,7 @@ $(document).ready(function(){
     <div id="wrapper">
       <div id="div1">
         <div id="word" class="animated  bounceIn">Gettin'r Done</div>
-        <div id="definition"><span></span></div>
+        <div id="definition"></div>
       </div>
     </div>
     
