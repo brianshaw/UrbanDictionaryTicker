@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <head>
+	  <title>Urban Dictionary Ticker</title>
   <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
   
 <style>
