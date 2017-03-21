@@ -66,23 +66,25 @@ html, body {
 <script>
 	//
 
-
-;(function($) {
-    $.fn.textfill = function(options) {
-        var fontSize = options.maxFontPixels;
-        var ourText = $('span:visible:first', this);
-        var maxHeight = $(this).height();
-        var maxWidth = $(this).width();
-        var textHeight;
-        var textWidth;
-        do {
-            ourText.css('font-size', fontSize);
-            textHeight = ourText.height();
-            textWidth = ourText.width();
-            fontSize = fontSize - 1;
-        } while ((textHeight > maxHeight || textWidth > maxWidth) && fontSize > 3);
-        return this;
-    }
+(function($) {
+    $.fn.textfill = function(maxFontSize) {
+        maxFontSize = parseInt(maxFontSize, 10);
+        return this.each(function(){
+            var ourText = $("span", this),
+                parent = ourText.parent(),
+                maxHeight = parent.height(),
+                maxWidth = parent.width(),
+                fontSize = parseInt(ourText.css("fontSize"), 10),
+                multiplier = maxWidth/ourText.width(),
+                newSize = (fontSize*(multiplier-0.1));
+            ourText.css(
+                "fontSize", 
+                (maxFontSize > 0 && newSize > maxFontSize) ? 
+                    maxFontSize : 
+                    newSize
+            );
+        });
+    };
 })(jQuery);
 
 function shuffle(a) {
@@ -126,7 +128,8 @@ var goApp = {
     $('body').css('background-color', color);
     //$('body').css('color', complement);
     $("#div1 #word").html(currentWord.word);
-    $("#div1 #definition span").html(currentWord.definition).textfill({ maxFontPixels: 36 });
+    $("#div1 #definition span").html(currentWord.definition);
+    $("#div1 #definition").textfill({ maxFontPixels: 36 });
     $("#count").text('word count: '+goApp.shownCount);
     if (goApp.urbanResults.length == 0){
       //console.log('stopping');
