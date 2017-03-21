@@ -16,6 +16,8 @@ html, body {
         -o-transition: background-color 1000ms linear;
         -ms-transition: background-color 1000ms linear;
         transition: background-color 1000ms linear;
+  margin:0;
+  padding:0;
 }
 #count { 
   position:absolute;
