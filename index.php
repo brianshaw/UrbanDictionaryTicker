@@ -180,6 +180,12 @@ var goApp = {
 };
 
 $(document).ready(function(){
+	
+	$("#div1 #definition").css({
+		'width': $("#div1 #definition").width(),
+		'height': $("#div1 #definition").height()
+	});
+	
   $('#stopper').click(function(){
     if (goApp.isRunning) {
       //goApp.nonStopRunning = false;
