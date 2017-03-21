@@ -57,6 +57,11 @@ html, body {
 	height:80%;
 	width: 100%;
 }
+#definition span {
+	width: 100%;
+    height: 100%;
+    display: block;
+}
 </style>
 
 
