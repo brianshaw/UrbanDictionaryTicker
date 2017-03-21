@@ -29,7 +29,7 @@ html, body {
   right:15px;
   font-size:24px;
   cursor: pointer;
-  line-height: 24px;
+  line-height: 34px;
   width:24px;
   height: 38px;
   background: rgba(255,255,255,0.4);
@@ -37,16 +37,23 @@ html, body {
 #wrapper {
  text-align:center;
   max-width:1024px;
-  margin:100px auto;
+  margin:0 auto;
   height:100%;
-  padding:40px;
+  padding:0px;
 }
-
+#div1 {
+	height:90%;
+	padding-top:5%;
+}
 #word {
   font-size: 80px;
+  height:20%;
+  width:100%;
 }
 #definition{
-font-size:36px;
+	font-size:36px;
+	height:80%;
+	width: 100%;
 }
 </style>
 
