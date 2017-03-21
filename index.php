@@ -29,6 +29,10 @@ html, body {
   right:15px;
   font-size:24px;
   cursor: pointer;
+  line-height: 24px;
+  width:24px;
+  height: 38px;
+  background: rgba(255,255,255,0.4);
 }
 #wrapper {
  text-align:center;
@@ -52,6 +56,25 @@ font-size:36px;
 
 <script>
 	//
+
+
+;(function($) {
+    $.fn.textfill = function(options) {
+        var fontSize = options.maxFontPixels;
+        var ourText = $('span:visible:first', this);
+        var maxHeight = $(this).height();
+        var maxWidth = $(this).width();
+        var textHeight;
+        var textWidth;
+        do {
+            ourText.css('font-size', fontSize);
+            textHeight = ourText.height();
+            textWidth = ourText.width();
+            fontSize = fontSize - 1;
+        } while ((textHeight > maxHeight || textWidth > maxWidth) && fontSize > 3);
+        return this;
+    }
+})(jQuery);
 
 function shuffle(a) {
     var j, x, i;
@@ -94,7 +117,7 @@ var goApp = {
     $('body').css('background-color', color);
     //$('body').css('color', complement);
     $("#div1 #word").html(currentWord.word);
-    $("#div1 #definition").html(currentWord.definition);
+    $("#div1 #definition").html(currentWord.definition).textfill({ maxFontPixels: 36 });
     $("#count").text('word count: '+goApp.shownCount);
     if (goApp.urbanResults.length == 0){
       //console.log('stopping');
