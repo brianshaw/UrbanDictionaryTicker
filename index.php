@@ -24,6 +24,10 @@ html, body {
   top:5px;
   left:5px;
   font-size:14px;
+  line-height: 34px;
+  width:34px;
+  height: 38px;
+  background: rgba(255,255,255,0.4);
 }
 #stopper { 
   position:absolute;
@@ -32,7 +36,7 @@ html, body {
   font-size:24px;
   cursor: pointer;
   line-height: 34px;
-  width:24px;
+  width:34px;
   height: 38px;
   background: rgba(255,255,255,0.4);
 }
@@ -62,14 +66,75 @@ html, body {
     height: 100%;
     display: block;
 }
+
+
+.words {
+  position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+    /* padding-bottom: 150px; */
+    background: green;
+}
+
+.words ul {
+  padding-bottom: 50px
+}
+.words li {
+  list-style:none;
+  padding:5px;
+  margin: 5px;
+  font-size:24px;
+  overflow-y: scroll;
+}
+
+#app {
+  
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.noscroll { 
+  overflow: hidden;
+}
+
 </style>
 
 
-<script type="application/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+
+  </head>
+  <body>
+
+<div id="app">
+  <div id="count" v-on:click="showHistory = !showHistory" >{{ count }}</div>
+  <div id="stopper"><span v-if="isRunning" v-on:click="isRunning = !isRunning">||</span><span v-if="!isRunning" v-on:click="isRunning = !isRunning">&gt;</span></div>
+    <div id="wrapper">
+      <div id="div1">
+        <div id="word" class="animated  bounceIn">{{ word }}</div>
+        <div id="definition">{{ definition }}</div>
+      </div>
+    </div>
+  <div class="words" v-if="showHistory && !isRunning">
+  <ul >
+    <li v-for="def in allResults" v-on:click="getDefById(def.defid)">
+      {{ def.word }}
+    </li>
+  </ul>
+  </div>
+</div>
+    
+    
+    <script type="application/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 <script type="application/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue"></script>
 <script type="application/javascript" src="flowtype.js"></script>
 <script>
+
 var isRunning = false;
 var runningTimer = 0;
 var UDapp = new Vue({
@@ -83,7 +148,8 @@ var UDapp = new Vue({
     word: '',
     definition: '',
     count: 0,
-    cycleTime: 20000
+    cycleTime:20000, // 20000,
+    showHistory: false
   },
   watch: {
     urbanResults: function(nV, oV){
@@ -116,12 +182,19 @@ var UDapp = new Vue({
             this.cycle();
           }.bind(this),this.cycleTime);
       }
+    },
+    showHistory: function(nV, oV){
+      if (nV){
+        this.isRunning = false;
+      }
+      $('body').toggleClass('noscroll', nV);
     }
   },
   mounted() {
     var self = this;
     //
     this.getMore();
+    //this.getDefById(1388173);
     //toggleCycle();
   },
   methods: {
@@ -130,7 +203,7 @@ var UDapp = new Vue({
         url: "https://api.urbandictionary.com/v0/random", 
         success: function(result){
           UDapp.urbanResults = result.list;
-          UDapp.allResults = UDapp.allResults.concat(UDapp.urbanResults);
+          //UDapp.allResults = UDapp.allResults.concat(UDapp.urbanResults);
           //goApp.startCycle();
           //goApp.isRunning = true;
           //goApp.cycleThrough();
@@ -142,10 +215,32 @@ var UDapp = new Vue({
     cycle: function(){
       this.count += 1;
       this.currentTerm = this.urbanResults.shift();
+      UDapp.allResults.unshift({ 
+         defid: this.currentTerm.defid, 
+        word: this.currentTerm.word 
+      });
+      //console.log(this.currentTerm);
       this.isRunning = true;
       var color = niceColor();
       //var complement = goApp.invertColor(color);
       $('body').css('background-color', color);
+    },
+    getDefById: function(defid){
+      // 1388173
+      //console.log(defid);
+      
+      $.ajax({
+        url: "https://api.urbandictionary.com/v0/define?defid="+defid, 
+        success: function(result){
+          //console.log(result.list[0]);
+          this.isRunning = false;
+          this.currentTerm = result.list[0];
+          this.showHistory = false;
+          //UDapp.urbanResults = result.list;
+          //UDapp.allResults = UDapp.allResults.concat(UDapp.urbanResults);
+          //UDapp.isRunning = true;
+        }.bind(this)
+      });
     }
   }
 });
@@ -190,18 +285,6 @@ function shuffle(a) {
 
 
 </script>
-  </head>
-  <body>
-    <div id="app">
-	  <div id="count">{{ count }} {{ allResults.length }}</div>
-	  <div id="stopper" v-on:click="isRunning = !isRunning"><span v-if="isRunning">||</span><span v-if="!isRunning">&gt;</span></div>
-	    <div id="wrapper">
-	      <div id="div1">
-	        <div id="word" class="animated  bounceIn">{{ word }}</div>
-	        <div id="definition">{{ definition }}</div>
-	      </div>
-	    </div>
-	</div>
     
   </body>
 </html>
